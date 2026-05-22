@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SHA3-256 Trainer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="app">
+  <div class="background-grid"></div>
+  <div class="glow glow-blue"></div>
+  <div class="glow glow-purple"></div>
+
+  <header class="top-bar">
+    <div class="brand" data-title="SHA3-256 Trainer" data-tip="Interactive educational trainer for learning SHA3-256 step by step.">
+      <div class="brand-icon">S3</div>
+      <div>
+        <p class="brand-title">SHA3-256</p>
+        <p class="brand-subtitle">interactive trainer</p>
+      </div>
+    </div>
+    <div class="location-pill" data-title="Current location" data-tip="Shows exactly where you are inside the SHA3-256 algorithm.">
+      <span class="dot"></span>
+      <span id="locationText">current location: intro</span>
+    </div>
+  </header>
+
+  <aside class="algorithm-map hidden" id="algorithmMap">
+    <h3>algorithm location</h3>
+    <div class="map-line" data-key="hash">SHA3-256</div>
+    <div class="map-line" data-key="input">├─ message input</div>
+    <div class="map-line" data-key="bytes">├─ text → bytes</div>
+    <div class="map-line" data-key="padding">├─ padding</div>
+    <div class="map-line" data-key="sponge">├─ sponge construction</div>
+    <div class="map-line sub" data-key="absorb">│  ├─ absorbing phase</div>
+    <div class="map-line sub" data-key="xor">│  │  └─ XOR with rate</div>
+    <div class="map-line sub" data-key="keccak">│  ├─ Keccak-f[1600] permutation</div>
+    <div class="map-line deep" data-key="theta">│  │  ├─ theta</div>
+    <div class="map-line deep" data-key="rho">│  │  ├─ rho</div>
+    <div class="map-line deep" data-key="pi">│  │  ├─ pi</div>
+    <div class="map-line deep" data-key="chi">│  │  ├─ chi</div>
+    <div class="map-line deep" data-key="iota">│  │  └─ iota</div>
+    <div class="map-line sub" data-key="squeeze">│  └─ squeezing phase</div>
+    <div class="map-line" data-key="digest">└─ 256-bit digest</div>
+    <p class="map-note" id="mapNote">intro</p>
+  </aside>
+
+  <main class="stage">
+    <section class="screen intro-screen active" data-location="intro" data-map="intro">
+      <div class="orbit orbit-one"></div>
+      <div class="orbit orbit-two"></div>
+      <div class="orbit orbit-three"></div>
+      <div class="hero-content">
+        <div class="intro-badge">cryptographic hash function</div>
+        <h1 class="hero-title" data-title="SHA3-256" data-tip="SHA3-256 creates a fixed 256-bit fingerprint from any input.">
+          <span>S</span><span>H</span><span>A</span><span>3</span><span>-</span><span>2</span><span>5</span><span>6</span>
+        </h1>
+        <button class="start-button" id="startButton">start learning <span>→</span></button>
+      </div>
+    </section>
+
+    <section class="screen lesson-screen" data-location="what is a hash?" data-map="hash">
+      <div class="lesson-grid">
+        <div class="lesson-text">
+          <p class="section-kicker">step 1 / foundation</p>
+          <h2>What is a hash?</h2>
+          <p>Imagine a machine that takes any message and creates a short digital fingerprint for it. That fingerprint is called a hash.</p>
+          <div class="explain-box">
+            <h3>Core idea</h3>
+            <p>You put data inside, SHA3-256 mixes it, and you get a fixed 256-bit digest. The digest helps recognize the data, but it does not reveal the original message.</p>
+          </div>
+          <div class="fact-row">
+            <div data-title="Any input" data-tip="The input can be one letter, a sentence, a file, or a huge document."><strong>any input</strong><span>text or file</span></div>
+            <div data-title="Fixed output" data-tip="SHA3-256 always produces 256 bits, shown as 64 hexadecimal characters."><strong>fixed result</strong><span>64 hex chars</span></div>
+            <div data-title="One-way" data-tip="A hash is not decrypted. You cannot rebuild the original message from only the digest."><strong>one-way</strong><span>no decrypt</span></div>
+          </div>
+        </div>
+        <div class="card demo-card">
+          <h3>try it yourself</h3>
+          <label for="hashInput">input message</label>
+          <input id="hashInput" value="hello" maxlength="60" />
+          <div class="mini-flow"><span>your message</span><b>→</b><span class="primary">SHA3-256</span><b>→</b><span>fingerprint</span></div>
+          <code id="hashOutput"></code>
+          <p class="small-muted">Change even one letter. The fingerprint changes completely, but its length stays the same.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen lesson-screen" data-location="hash vs encryption" data-map="hash">
+      <div class="lesson-title"><p class="section-kicker">important difference</p><h2>Hashing is not encryption</h2><p>Encryption can be reversed with a key. Hashing is one-way.</p></div>
+      <div class="compare-grid">
+        <div class="compare-card encryption"><h3>Encryption</h3><div class="diagram-line"><span>message</span><b>+</b><span>key</span><b>→</b><span>ciphertext</span></div><div class="diagram-line"><span>ciphertext</span><b>+</b><span>key</span><b>→</b><span>message</span></div><p>Encryption hides data and can recover it with the correct key.</p></div>
+        <div class="compare-card hashing"><h3>Hashing</h3><div class="diagram-line"><span>message</span><b>→</b><span>hash digest</span></div><div class="blocked-line"><span>hash digest</span><b>↛</b><span>message</span></div><p>SHA3-256 creates a fingerprint. It cannot be decrypted back.</p></div>
+      </div>
+      <div class="wide-note"><strong>Defense phrase:</strong> “SHA3-256 does not encrypt. It hashes data into a fixed fingerprint.”</div>
+    </section>
+
+    <section class="screen lesson-screen" data-location="input → bytes" data-map="bytes">
+      <div class="lesson-grid">
+        <div class="lesson-text"><p class="section-kicker">step 2</p><h2>Text becomes bytes</h2><p>SHA3-256 does not process letters directly. First, the message is encoded as bytes. For normal text, the browser uses UTF-8.</p><div class="explain-box"><h3>Example</h3><p>Every character is converted into a byte value. For example, “hello” becomes 68 65 6c 6c 6f. Your input on the right is converted live.</p></div></div>
+        <div class="card"><label for="bytesInput">try input</label><input id="bytesInput" value="hello" maxlength="28" /><div class="byte-row" id="byteRow"></div><p class="small-muted">Each box shows one byte in hex.</p></div>
+      </div>
+    </section>
+
+    <section class="screen lesson-screen" data-location="padding" data-map="padding">
+      <div class="lesson-title"><p class="section-kicker">step 3</p><h2>Padding</h2><p>Padding adds extra bytes after the real message so SHA3 can process a complete 136-byte rate block and clearly know where the message ends.</p></div>
+      <div class="card padding-stage"><div class="padding-row" id="paddingRow"></div></div>
+      <div class="info-columns"><div class="explain-box"><h3>Why padding?</h3><p>Most messages are not exactly 136 bytes long. Padding completes the block before it goes into the sponge.</p></div><div class="explain-box"><h3>Padding bytes</h3><p><strong>06</strong> marks SHA3 padding, <strong>00</strong> fills empty space, and <strong>80</strong> closes the padded block.</p></div></div>
+    </section>
+
+    <section class="screen lesson-screen" data-location="sponge → absorbing → XOR with rate" data-map="xor">
+      <div class="lesson-title compact"><p class="section-kicker">main algorithm</p><h2>Sponge construction</h2><p>Message blocks are XORed only into rate. Then the full state — rate plus capacity — enters Keccak-f.</p></div>
+      <div class="sponge-layout">
+        <div class="card sponge-stage">
+          <svg id="spongeSvg" viewBox="0 0 1000 430">
+            <defs>
+              <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#e5e7eb"></path></marker>
+              <marker id="capArrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#fb923c"></path></marker>
+            </defs>
+            <rect x="20" y="40" width="600" height="340" class="absorb-zone"></rect><rect x="620" y="40" width="350" height="340" class="squeeze-zone"></rect><line x1="620" y1="40" x2="620" y2="380" class="dash"></line><text x="70" y="360" class="svg-label">absorbing</text><text x="785" y="360" class="svg-label">squeezing</text>
+            <rect x="55" y="145" width="74" height="160" class="state-shell"></rect><rect id="rateMain" x="55" y="145" width="74" height="108" class="rate-part" data-title="Rate" data-tip="Rate is where message blocks are XORed. SHA3-256 rate = 1088 bits = 136 bytes."></rect><rect id="capMain" x="55" y="253" width="74" height="52" class="capacity-part" data-title="Capacity" data-tip="Capacity is the hidden security part. Message data does not enter it directly."></rect><text x="84" y="202" class="state-label">r</text><text x="84" y="286" class="state-label">c</text>
+            <rect id="p0" x="175" y="70" width="56" height="40" rx="8" class="msg-block" data-title="Message block p0" data-tip="First padded message block. It moves to XOR and combines with rate."></rect><text id="p0Text" x="193" y="96" class="small-text">p0</text><rect id="p1" x="350" y="70" width="56" height="40" rx="8" class="msg-block" data-title="Message block p1" data-tip="Second block repeats the same absorbing process."></rect><text id="p1Text" x="368" y="96" class="small-text">p1</text><rect id="p2" x="525" y="70" width="56" height="40" rx="8" class="msg-block" data-title="Message block p2" data-tip="Third block is also XORed into rate before f."></rect><text id="p2Text" x="543" y="96" class="small-text">p2</text>
+            <circle id="xor0" cx="203" cy="198" r="19" class="xor-node" data-title="XOR" data-tip="XOR combines message bits with current rate bits. Same bits produce 0, different bits produce 1."></circle><text x="195" y="206" class="xor-text">⊕</text><circle id="xor1" cx="378" cy="198" r="19" class="xor-node" data-title="XOR" data-tip="Each block is XORed only into rate."></circle><text x="370" y="206" class="xor-text">⊕</text><circle id="xor2" cx="553" cy="198" r="19" class="xor-node" data-title="XOR" data-tip="Capacity is not directly filled by message data."></circle><text x="545" y="206" class="xor-text">⊕</text>
+            <rect id="f0" x="250" y="145" width="62" height="130" rx="28" class="f-block" data-title="Keccak-f[1600]" data-tip="This function mixes all 1600 state bits: rate plus capacity."></rect><text x="273" y="220" class="f-text">f</text><rect id="f1" x="425" y="145" width="62" height="130" rx="28" class="f-block" data-title="Keccak-f[1600]" data-tip="After each XOR, f mixes the state."></rect><text x="448" y="220" class="f-text">f</text><rect id="f2" x="600" y="145" width="62" height="130" rx="28" class="f-block" data-title="Keccak-f[1600]" data-tip="After absorbing all blocks, squeezing starts."></rect><text x="623" y="220" class="f-text">f</text>
+            <rect x="700" y="145" width="74" height="160" class="state-shell"></rect><rect x="700" y="145" width="74" height="108" class="rate-part"></rect><rect x="700" y="253" width="74" height="52" class="capacity-part"></rect><text id="z0" x="718" y="122" class="output-text">z0</text><line x1="737" y1="145" x2="737" y2="126" class="svg-arrow"></line><rect id="f3" x="830" y="145" width="62" height="130" rx="28" class="f-block" data-title="Keccak-f during squeezing" data-tip="If more output is needed, f runs again before producing the next output block."></rect><text x="853" y="220" class="f-text">f</text><text id="z1" x="910" y="122" class="output-text">z1</text><line x1="930" y1="145" x2="930" y2="126" class="svg-arrow"></line>
+            <line x1="129" y1="198" x2="181" y2="198" class="svg-arrow"></line><line x1="222" y1="198" x2="250" y2="198" class="svg-arrow"></line><line x1="312" y1="198" x2="356" y2="198" class="svg-arrow"></line><line x1="397" y1="198" x2="425" y2="198" class="svg-arrow"></line><line x1="487" y1="198" x2="531" y2="198" class="svg-arrow"></line><line x1="572" y1="198" x2="600" y2="198" class="svg-arrow"></line><line x1="662" y1="198" x2="700" y2="198" class="svg-arrow"></line><line x1="774" y1="198" x2="830" y2="198" class="svg-arrow"></line><line x1="892" y1="198" x2="930" y2="198" class="svg-arrow"></line>
+            <line id="cap0" x1="129" y1="278" x2="250" y2="278" class="cap-flow" data-title="Capacity path" data-tip="Capacity is not XORed with the message, but it is still part of the state that enters Keccak-f."></line>
+            <line id="cap1" x1="312" y1="278" x2="425" y2="278" class="cap-flow" data-title="Capacity path" data-tip="After each absorbing step, Keccak-f receives the full state: rate plus capacity."></line>
+            <line id="cap2" x1="487" y1="278" x2="600" y2="278" class="cap-flow" data-title="Capacity path" data-tip="The lower orange path shows capacity going into Keccak-f together with rate."></line>
+            <line id="cap3" x1="662" y1="278" x2="700" y2="278" class="cap-flow" data-title="Full state to squeezing" data-tip="The full state continues into squeezing, but output is read only from the rate part."></line>
+          </svg>
+        </div>
+        <div class="card what-panel"><h3>What happens now?</h3><p id="spongeExplanation">Message bytes are absorbed through XOR with the rate part.</p><div class="mini-status" id="spongeStatus">absorbing / preview</div><div class="sponge-buttons"><button class="small-action" id="pauseSponge">pause animation</button><button class="small-action" id="restartSponge">restart animation</button></div></div>
+      </div>
+    </section>
+
+    <section class="screen lesson-screen" data-location="sponge → Keccak-f[1600]" data-map="keccak"><div class="lesson-grid"><div class="lesson-text"><p class="section-kicker">inside f</p><h2>Keccak-f[1600]</h2><p>Keccak-f[1600] is the permutation inside SHA3. It mixes the 1600-bit internal state through 24 rounds.</p><div class="explain-box"><h3>State structure</h3><p>State = 5×5 lanes. Each lane = 64 bits. Therefore 25 × 64 = 1600 bits.</p></div><div class="round-strip"><span>θ theta</span><span>ρ rho</span><span>π pi</span><span>χ chi</span><span>ι iota</span></div></div><div class="card grid-card"><div class="state-grid" id="keccakGrid"></div></div></div></section>
+    <section class="screen lesson-screen" data-location="sponge → Keccak-f[1600] → round → theta" data-map="theta"><div class="operation-screen"><div><p class="section-kicker">operation 1 / 5</p><h2>Theta θ</h2><p>Theta mixes columns. It calculates column parity and XORs it into neighboring columns.</p><div class="explain-box"><h3>Simple meaning</h3><p>One column starts affecting other columns. This spreads information across the state.</p></div></div><div class="card operation-visual"><div class="state-grid theta-grid" id="thetaGrid"></div><div class="operation-formula">C[x] = XOR of column → D[x] → A[x,y] XOR D[x]</div></div></div></section>
+    <section class="screen lesson-screen" data-location="sponge → Keccak-f[1600] → round → rho" data-map="rho"><div class="operation-screen"><div><p class="section-kicker">operation 2 / 5</p><h2>Rho ρ</h2><p>Rho rotates bits inside each 64-bit lane by different offsets.</p><div class="explain-box"><h3>Simple meaning</h3><p>Bits stay in the same lane, but their positions rotate.</p></div></div><div class="card operation-visual"><div class="rho-lane" id="rhoLane"><span>1</span><span>0</span><span>1</span><span>1</span><span>0</span><span>0</span><span>1</span><span>0</span></div><div class="operation-formula">rotate left by offset</div></div></div></section>
+    <section class="screen lesson-screen" data-location="sponge → Keccak-f[1600] → round → pi" data-map="pi"><div class="operation-screen"><div><p class="section-kicker">operation 3 / 5</p><h2>Pi π</h2><p>Pi moves lanes to new positions in the 5×5 state.</p><div class="explain-box"><h3>Simple meaning</h3><p>Whole lanes are rearranged across the state matrix.</p></div></div><div class="card operation-visual"><div class="pi-board" id="piBoard"><div class="pi-grid"></div><div class="moving-lane" id="movingLane">lane</div></div><div class="operation-formula">A[x,y] moves to a new coordinate</div></div></div></section>
+    <section class="screen lesson-screen" data-location="sponge → Keccak-f[1600] → round → chi" data-map="chi"><div class="operation-screen"><div><p class="section-kicker">operation 4 / 5</p><h2>Chi χ</h2><p>Chi is the nonlinear step. It changes each bit using two neighboring bits in the same row.</p><div class="explain-box"><h3>Why important?</h3><p>Nonlinearity makes the transformation harder to reverse or predict.</p></div></div><div class="card operation-visual chi-visual-card"><div class="chi-grid" id="chiGrid"></div><div class="chi-flow" id="chiFlow"><div class="chi-step-box" id="chiFirst">A[x,y]</div><div class="chi-op">XOR</div><div class="chi-step-box" id="chiNot">NOT A[x+1,y]</div><div class="chi-op">AND</div><div class="chi-step-box" id="chiThird">A[x+2,y]</div></div><button class="chi-control-button" id="pauseChi">pause animation</button><div class="operation-formula" id="chiCaption">Chi selects three neighboring cells in one row.</div></div></div></section>
+    <section class="screen lesson-screen" data-location="sponge → Keccak-f[1600] → round → iota" data-map="iota"><div class="operation-screen"><div><p class="section-kicker">operation 5 / 5</p><h2>Iota ι</h2><p>Iota XORs a round constant into lane A[0,0].</p><div class="explain-box"><h3>Simple meaning</h3><p>Each round gets a different constant, so rounds are not symmetric copies.</p></div></div><div class="card operation-visual iota-visual-card"><div class="iota-grid" id="iotaGrid"></div><div class="iota-center-rc" id="rcBox">RC[i]</div><div class="operation-formula" id="iotaCaption">Iota injects the round constant into lane A[0,0].</div></div></div></section>
+    <section class="screen lesson-screen" data-location="sponge → squeezing → digest" data-map="squeeze"><div class="lesson-grid"><div class="lesson-text"><p class="section-kicker">final algorithm step</p><h2>Squeezing</h2><p>After all message blocks are absorbed, SHA3 squeezes output from the rate part. SHA3-256 needs 32 bytes.</p><div class="explain-box"><h3>Why 32 bytes?</h3><p>256 bits = 32 bytes. The digest is usually shown as 64 hex characters.</p></div></div><div class="card squeeze-card"><div class="squeeze-state"><div class="sq-rate">rate output</div><div class="sq-cap">capacity</div></div><div class="big-arrow">→</div><div class="digest-box"><strong>final digest</strong><code id="finalDigest"></code></div></div></div></section>
+    <section class="screen lesson-screen" data-location="digest → avalanche effect" data-map="digest"><div class="lesson-title"><p class="section-kicker">security property</p><h2>Avalanche effect</h2><p>A tiny input change creates a very different hash.</p></div><div class="avalanche-grid"><div class="card"><label>input A</label><input id="avalancheA" value="hello" /><code id="hashA"></code></div><div class="card"><label>input B</label><input id="avalancheB" value="hello!" /><code id="hashB"></code></div></div><div class="card diff-card"><h3>different bits</h3><div class="diff-bar"><span id="diffFill"></span></div><p id="diffText"></p></div></section>
+    <section class="screen lesson-screen" data-location="real-world usage" data-map="digest"><div class="lesson-title"><p class="section-kicker">examples</p><h2>Where SHA3-256 is useful</h2></div><div class="use-grid"><div class="use-card" data-title="File integrity" data-tip="Compare official hash with your downloaded file hash."><h3>File integrity</h3><p>You download a file and compare its SHA3-256 hash with the official hash.</p></div><div class="use-card" data-title="Digital signatures" data-tip="Usually we hash a document first, then sign the hash."><h3>Digital signatures</h3><p>Hash the document first, then sign the hash.</p></div><div class="use-card" data-title="Data fingerprint" data-tip="A hash identifies data with fixed-size digest."><h3>Data fingerprint</h3><p>Use a short fixed digest to identify data.</p></div><div class="use-card warning" data-title="Password warning" data-tip="For real password storage, use Argon2, bcrypt, or PBKDF2."><h3>Password warning</h3><p>Do not store plain SHA3-256(password) in real systems.</p></div></div></section>
+  </main>
+
+  <nav class="bottom-controls hidden" id="bottomControls"><button class="nav-btn" id="backBtn">← back</button><div class="progress-text" id="progressText">1 / 15</div><button class="nav-btn primary" id="nextBtn">next →</button></nav>
+</div>
+<div id="tooltip" class="tooltip"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
